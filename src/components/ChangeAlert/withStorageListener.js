@@ -6,7 +6,6 @@ function withStorageListener(WrappedComponent) {
 
     window.addEventListener('storage', (change) => {
       if (change.key === 'TODOS_V1') {
-        console.log('Hay cambios chat')
         setStorageChange(true)
       }
     })

@@ -28,7 +28,7 @@ function TodoList({
           : 
           (!loading && !error && searchedTodos?.length === 0) ? onEmptySearchedTodos(searchedText)
           : 
-          searchedTodos?.map(children)
+          (!loading && !error) ? searchedTodos?.map(children) : null
         }
       </ul>
     </section>
