@@ -32,7 +32,7 @@ function App() {
   return (
     <>
 
-      <TodoHeader>
+      <TodoHeader loading={loading}>
         <TodoCounter
           totalTodos={totalTodos}
           completedTodos={completedTodos}
@@ -44,34 +44,27 @@ function App() {
         />
       </TodoHeader>
 
-      <TodoList>
-        {loading ? 
-          <>
-            <TodosLoading /> 
-            <TodosLoading /> 
-            <TodosLoading /> 
-          </>
-          : 
-          null
-        }
+      <TodoList
+        loading={loading}
+        error={error}
+        totalTodos={totalTodos}
+        searchedTodos={searchedTodos}
+        searchedText={searchValue}
 
-        {error ? <TodosError /> : null}
-        
-        {
-          (!loading && !error && totalTodos === 0) ? <EmptyTodos /> 
-          : 
-          (!loading && !error && searchedTodos.length === 0) ? <EmptySearchedTodos /> 
-          : 
-          searchedTodos.map(todo => (
-            <TodoItem 
-              key={todo.text} 
-              text={todo.text} 
-              completed={todo.completed} 
-              onComplete={() => completeTodo(todo.text)}
-              onDelete={() => deleteTodo(todo.text)}
-            />
-          ))
-        }
+        onError={() => <TodosError />}
+        onLoading={() => <TodosLoading />}
+        onEmptyTodos={() => <EmptyTodos /> }
+        onEmptySearchedTodos={searchedText => <EmptySearchedTodos searchedText={searchedText} /> }
+      >
+        {todo => (
+          <TodoItem 
+            key={todo.text} 
+            text={todo.text} 
+            completed={todo.completed} 
+            onComplete={() => completeTodo(todo.text)}
+            onDelete={() => deleteTodo(todo.text)}
+          />
+        )}
       </TodoList>
 
       <CreateTodoButton
